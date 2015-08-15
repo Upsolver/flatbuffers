@@ -728,6 +728,34 @@ static void GenStruct(const LanguageParameters &lang, const Parser &parser,
       code += "__vector_len(o) : 0; ";
       code += lang.getter_suffix;
       code += "}\n";
+	  if (lang.language == GeneratorOptions::kCSharp) {
+
+		  code += "  public System.Collections.Generic.IEnumerable<" + type_name_dest + "> Get" + MakeCamel(field.name, lang.first_camel_upper) + "Enumerable()";
+		  code += offset_prefix;
+
+		  auto vectortype = field.value.type.VectorType();
+		  code += "new FlatBuffer";
+		  if (vectortype.base_type != BASE_TYPE_STRUCT) {
+			  code += MakeCamel(GenTypeGet(lang, field.value.type));
+		  }
+		  else if (vectortype.struct_def->fixed) {
+			  code += "Struct";
+		  }
+		  else {
+			  code += "Object";
+		  }
+		  code += "Enumerable";
+		  if (vectortype.base_type == BASE_TYPE_STRUCT) {
+			  code += "<" + type_name_dest + ">";
+		  }
+		  code += "(__vector(o), __vector_len(o), ";
+		  if (vectortype.base_type == BASE_TYPE_STRUCT && vectortype.struct_def->fixed) {
+			  code += NumToString(InlineSize(vectortype)) + ", ";
+		  }
+		  code += "bb) : System.Linq.Enumerable.Empty<" + type_name_dest + ">(); ";
+		  code += lang.getter_suffix;
+		  code += "\n";
+	  }
     }
     // Generate a ByteBuffer accessor for strings & vectors of scalars.
     if (((field.value.type.base_type == BASE_TYPE_VECTOR &&

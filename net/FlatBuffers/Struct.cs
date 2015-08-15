@@ -23,5 +23,11 @@ namespace FlatBuffers
     {
         protected int bb_pos;
         protected ByteBuffer bb;
+
+        internal void Initialize(int pos, ByteBuffer buffer)
+        {
+            bb_pos = pos;
+            bb = buffer;
+        }
     }
 }

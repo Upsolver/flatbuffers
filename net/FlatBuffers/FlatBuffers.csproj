@@ -35,6 +35,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ByteBuffer.cs" />
+    <Compile Include="Enumerables\FlatBufferDoubleEnumerable.cs" />
+    <Compile Include="Enumerables\FlatBufferEnumerable.cs" />
+    <Compile Include="Enumerables\FlatBufferFloatEnumerable.cs" />
+    <Compile Include="Enumerables\FlatBufferIntEnumerable.cs" />
+    <Compile Include="Enumerables\FlatBufferLongEnumerable.cs" />
+    <Compile Include="Enumerables\FlatBufferObjectEnumerable.cs" />
+    <Compile Include="Enumerables\FlatBufferSbyteEnumerable.cs" />
+    <Compile Include="Enumerables\FlatBufferShortEnumerable.cs" />
+    <Compile Include="Enumerables\FlatBufferStringEnumerable.cs" />
+    <Compile Include="Enumerables\FlatBufferStructEnumerable.cs" />
+    <Compile Include="Enumerables\FlatBufferUintEnumerable.cs" />
+    <Compile Include="Enumerables\FlatBufferUlongEnumerable.cs" />
+    <Compile Include="Enumerables\FlatBufferUshortEnumerable.cs" />
     <Compile Include="FlatBufferBuilder.cs" />
     <Compile Include="FlatBufferConstants.cs" />
     <Compile Include="Offset.cs" />

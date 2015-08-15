@@ -24,6 +24,8 @@ namespace FlatBuffers
     /// </summary>
     public abstract class Table
     {
+        internal static readonly UTF8Encoding StringEncoding = (UTF8Encoding)Encoding.UTF8;
+
         protected int bb_pos;
         protected ByteBuffer bb;
 
@@ -32,7 +34,7 @@ namespace FlatBuffers
         protected int __offset(int vtableOffset)
         {
             int vtable = bb_pos - bb.GetInt(bb_pos);
-            return vtableOffset < bb.GetShort(vtable) ? (int)bb.GetShort(vtable + vtableOffset) : 0;
+            return vtableOffset < bb.GetShort(vtable) ? bb.GetShort(vtable + vtableOffset) : 0;
         }
 
         // Retrieve the relative offset stored at "offset"
@@ -47,7 +49,7 @@ namespace FlatBuffers
             offset += bb.GetInt(offset);
             var len = bb.GetInt(offset);
             var startPos = offset + sizeof(int);
-            return Encoding.UTF8.GetString(bb.Data, startPos , len);
+            return StringEncoding.GetString(bb.Data, startPos, len);
         }
 
         // Get the length of a vector whose offset is stored at "offset" in this object.
@@ -87,6 +89,10 @@ namespace FlatBuffers
             return true;
         }
 
-
+        internal void Initialize(int pos, ByteBuffer buffer)
+        {
+            bb_pos = __indirect(pos); 
+            bb = buffer;
+        }
     }
 }

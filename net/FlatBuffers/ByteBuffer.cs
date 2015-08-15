@@ -48,12 +48,7 @@ namespace FlatBuffers
 
         public int Position { get { return _pos; } }
 
-        // Pre-allocated helper arrays for convertion.
-        private float[] floathelper = new[] { 0.0f };
-        private int[] inthelper = new[] { 0 };
-        private double[] doublehelper = new[] { 0.0 };
-        private ulong[] ulonghelper = new[] { 0UL };
-
+#if UNSAFE_BYTEBUFFER
         // Helper functions for the unsafe version.
         static public ushort ReverseBytes(ushort input)
         {
@@ -78,8 +73,13 @@ namespace FlatBuffers
                     ((input & 0x00FF000000000000UL) >> 40) |
                     ((input & 0xFF00000000000000UL) >> 56));
         }
+#else
+        // Pre-allocated helper arrays for convertion.
+        private float[] floathelper = new[] { 0.0f };
+        private int[] inthelper = new[] { 0 };
+        private double[] doublehelper = new[] { 0.0 };
+        private ulong[] ulonghelper = new[] { 0UL };
 
-#if !UNSAFE_BYTEBUFFER
         // Helper functions for the safe (but slower) version.
         protected void WriteLittleEndian(int offset, int count, ulong data)
         {
